@@ -14,6 +14,7 @@ import {
 import { ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { AdministratorService } from '../services/administrator.service';
 
+@ApiTags('Administrator')
 @Controller('administrator')
 export class AdministratorController {
   constructor(private administratorService: AdministratorService) {}

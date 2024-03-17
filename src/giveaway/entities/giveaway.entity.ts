@@ -32,6 +32,9 @@ export class Giveaway {
   @Column({ type: 'varchar', length: 100, nullable: true })
   image: string;
 
+  @Column({ type: 'numeric' })
+  number_winners: number;
+
   @OneToMany(
     () => GiveawaySweeper,
     (giveawaySweeper) => giveawaySweeper.giveaway,
