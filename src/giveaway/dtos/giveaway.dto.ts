@@ -1,6 +1,6 @@
 import { ApiProperty, PartialType } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { IsDate, IsNotEmpty, IsString } from 'class-validator';
+import { IsDate, IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class CreateGiveawayDto {
   @IsNotEmpty({ message: 'El nombre es obligatorio' })
@@ -29,9 +29,14 @@ export class CreateGiveawayDto {
   @ApiProperty()
   readonly state: boolean;
 
-  @IsNotEmpty()
+  @IsOptional()
   @ApiProperty({ type: 'string', format: 'binary' })
   readonly imagen: any;
+
+  @IsNotEmpty({ message: 'La cantidad de ganadores es obligatoria' })
+  @IsNumber()
+  @ApiProperty()
+  number_winners: number
 
   @IsNotEmpty({ message: 'La fk del administrador es obligatoria' })
   @IsString()

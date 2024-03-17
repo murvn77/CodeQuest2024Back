@@ -3,6 +3,7 @@ import { ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { GiveawayService } from '../services/giveaway.service';
 import { CreateGiveawayDto, UpdateGiveawayDto } from '../dtos/giveaway.dto';
 
+@ApiTags('Giveaway')
 @Controller('giveaway')
 export class GiveawayController {
     constructor(private giveawayService: GiveawayService) { }
