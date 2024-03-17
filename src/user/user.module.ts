@@ -4,6 +4,7 @@ import { AdministratorService } from './services/administrator.service';
 
 @Module({
   controllers: [AdministratorController],
-  providers: [AdministratorService]
+  providers: [AdministratorService],
+  exports: [AdministratorService],
 })
 export class UserModule {}
