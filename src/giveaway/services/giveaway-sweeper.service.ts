@@ -20,7 +20,22 @@ export class GiveawaySweeperService {
     private giveawaySweeperRepo: Repository<GiveawaySweeper>,
     private giveawayService: GiveawayService,
     private sweeperService: SweeperService,
-  ) {}
+  ) { }
+
+  async generateWinner() {
+    const sweepers = await this.sweeperService.findAll();
+    const winners = [];
+    while (winners.length < 3) {
+      for (const sweeper of sweepers) {
+        const probability = Math.random();
+        if (probability < 0.5 && winners.length < 3) {
+          winners.push(sweeper);
+        }
+      }
+    }
+
+    return winners;
+  }
 
   async createGiveawaySweeper(data: CreateGiveawaySweeperDto) {
     console.log(data);

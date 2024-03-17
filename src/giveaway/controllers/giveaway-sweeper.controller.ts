@@ -20,6 +20,12 @@ export class GiveawaySweeperController {
   constructor(private giveawaySweeperService: GiveawaySweeperService) {}
 
   @Get()
+  generateWinner() {
+    console.log('Entro al get de generar ganador');
+    return this.giveawaySweeperService.generateWinner();
+  }
+
+  @Get()
   findAll() {
     console.log('Entro al get de giveaway-sweeper');
     return this.giveawaySweeperService.findAll();
