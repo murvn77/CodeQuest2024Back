@@ -4,7 +4,7 @@ export default registerAs('config', () => {
   console.log(process.env);
   return {
     port: parseInt(process.env.PORT, 10),
-    host: process.env.HOST,
+    host_url: process.env.HOST,
     dbserver: {
       db: process.env.DB,
       server: process.env.DB_SERVER,
