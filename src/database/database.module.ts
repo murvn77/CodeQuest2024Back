@@ -21,7 +21,9 @@ import config from 'src/config/config';
           port,
           synchronize: true,
           autoLoadEntities: true,
-          ssl: false,
+          ssl: {
+            rejectUnauthorized: false,
+          },
         };
       },
     }),
