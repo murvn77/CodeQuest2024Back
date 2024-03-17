@@ -42,6 +42,6 @@ export class DiscordStrategy extends PassportStrategy(Strategy, 'discord') {
       })
       .toPromise();
     console.log(data);
-    return this.authService.findUserFromDiscordId(data.id);
+    // return this.authService.findUserFromDiscordId(data.id);
   }
 }
