@@ -30,7 +30,7 @@ export class Giveaway {
   state: boolean;
 
   @Column({ type: 'bytea', nullable: true })
-  image: Buffer;
+  image: string;
 
   @Column({ type: 'numeric' })
   number_winners: number;
