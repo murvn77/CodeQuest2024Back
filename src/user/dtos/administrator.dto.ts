@@ -19,7 +19,7 @@ export class CreateAdministratorDto {
   readonly email: string;
 
   @IsNotEmpty({ message: 'El documento es obligatorio' })
-  @IsNumber({ maxDecimalPlaces: 0 })
+  @IsNumber()
   @IsPositive()
   // @MinLength(6)
   // @MaxLength(6)

@@ -25,7 +25,7 @@ export class GiveawayController {
     }
 
     @Post()
-    @ApiConsumes('multipart/form-data')
+    // @ApiConsumes('multipart/form-data')
     // @UsePipes(new ValidationPipe({ transform: true }))
     createGiveaway(@Body() payload: CreateGiveawayDto) {
         console.log("payload giveaway: ", payload)
