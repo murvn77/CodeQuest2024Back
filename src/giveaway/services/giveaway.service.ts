@@ -130,10 +130,6 @@ export class GiveawayService {
   }
 
   async remove(id: string) {
-    const giveaway = await this.giveawayRepo.findOne({
-      where: { id_giveaway: id },
-    });
-
-    return this.giveawayRepo.delete(giveaway);
+    return this.giveawayRepo.delete(id);
   }
 }
