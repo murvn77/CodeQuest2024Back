@@ -8,22 +8,22 @@
 
 ## Description
 
-The backend solution to the CodeQuest2024 created by [DevTalles](https://cursos.devtalles.com).
+The backend solution to the CodeQuest2024 created by [DevTalles](https://cursos.devtalles.com).  
 Our solution is based in [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
 ## Enviroment Variables
 
 Create a file .prod.env or .dev.env based in the next template:
 
-PORT=
-NODE_ENV=
-#CONFIG DATABASE
-DB_SERVER=
-DB_PORT=
-DB_USER=
-DB_PASSWORD=
-DB_DATABASE=
-DB_SCHEMA=
+PORT=  
+NODE_ENV=  
+#CONFIG DATABASE=  
+DB_SERVER=  
+DB_PORT=  
+DB_USER=  
+DB_PASSWORD=  
+DB_DATABASE=  
+DB_SCHEMA=  
 
 ## Installation
 
@@ -62,9 +62,9 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
-## Support
+## URL backend
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+[API REST](https://codequest2024back.onrender.com/docs#/)
 
 ## Authors
 
