@@ -10,14 +10,10 @@ import config from 'src/config/config';
 import { ConfigType } from '@nestjs/config';
 
 // change these to be your Discord client ID and secret
-const clientID = '1218718388809891841';
-const clientSecret = 'NmMU9hIzlnC18bs3qToZDFAlxg6H1BF8';
-const callbackURL = 'https://codequest2024front.onrender.com/principal';
-//callbackTestChristian: http://localhost:5173/principal
 
 @Injectable()
 export class DiscordStrategy extends PassportStrategy(Strategy, 'discord') {
-  // private discordConfig: {};
+  private discordConfig;
   constructor(
     @Inject(config.KEY) private configService: ConfigType<typeof config>,
     private authService: AuthService,
@@ -26,28 +22,26 @@ export class DiscordStrategy extends PassportStrategy(Strategy, 'discord') {
     super({
       authorizationURL: `https://discordapp.com/api/oauth2/authorize?${stringify(
         {
-          client_id: clientID,
-          redirect_uri: callbackURL,
+          client_id: configService.discord.clientId,
+          redirect_uri: configService.discord.callbackUrl,
           response_type: 'code',
           scope: 'identify+guilds+guilds.members.read',
         },
       )}`,
       tokenURL: 'https://discordapp.com/api/oauth2/token',
       scope: 'identify+guilds+guilds.members.read',
-      clientID,
-      clientSecret,
-      callbackURL,
+      clientID: configService.discord.clientId,
+      clientSecret: configService.discord.clientSecret,
+      callbackURL: configService.discord.callbackUrl,
     });
-    // this.discordConfig;
+    this.discordConfig = configService.discord;
   }
 
   async validate(accessToken: string): Promise<any> {
     try {
       const dataAdminDB = new Administrator();
-      //Christian: 1216945509244207154
-      const serverId = '1216945509244207154';
-      //Christian:1219041365959249932
-      const roleAdminId = '1219041365959249932';
+      const serverId = this.discordConfig.serverId;
+      const roleAdminId = this.discordConfig.roleAdminId;
       console.log('AccessToken', accessToken);
       const { data } = await this.http
         .get(`https://discord.com/api/users/@me/guilds/${serverId}/member`, {
@@ -86,8 +80,8 @@ export class DiscordStrategy extends PassportStrategy(Strategy, 'discord') {
         } else {
           console.log('Is in DB');
 
-          dataAdminDB.id = adminDB.discord_id;
-          dataAdminDB.username = adminDB.name;
+          dataAdminDB.id = adminDB.id;
+          dataAdminDB.username = adminDB.username;
           dataAdminDB.avatar = adminDB.avatar;
           dataAdminDB.id_administrator = adminDB.id_administrator;
           console.log(dataAdminDB);

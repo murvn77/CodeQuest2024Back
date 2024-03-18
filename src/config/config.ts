@@ -15,6 +15,13 @@ export default registerAs('config', () => {
       port: parseInt(process.env.DB_PORT, 10),
       schema: process.env.DB_SCHEMA,
     },
+    discord: {
+      idServer: process.env.DISCORD_ID_SERVER,
+      adminRol: process.env.DISCORD_ID_ADMIN_ROL,
+      clientId: process.env.DISCORD_CLIENT_ID,
+      clientSecret: process.env.DISCORD_CLIENT_SECRET,
+      callbackUrl: process.env.DISCORD_CALLBACK_URL,
+    },
     jwtSecret: process.env.JWT_SECRET,
   };
 });
