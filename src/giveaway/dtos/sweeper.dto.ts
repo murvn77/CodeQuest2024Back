@@ -1,9 +1,6 @@
 import { ApiProperty, PartialType } from '@nestjs/swagger';
 import {
-  IsEmail,
   IsNotEmpty,
-  IsNumber,
-  IsPositive,
   IsString,
 } from 'class-validator';
 
