@@ -39,9 +39,11 @@ export class GiveawaySweeperService {
       for (const winner of winners) {
         const giveawaySweeper = await this.findOne(giveaway, winner);
         giveawaySweeper.winner = true;
+        await this.giveawaySweeperRepo.save(giveawaySweeper);
       }
 
       giveaway.state = false;
+      await this.giveawayService.updateState(giveaway);
 
       return winners;
     } catch (error) {

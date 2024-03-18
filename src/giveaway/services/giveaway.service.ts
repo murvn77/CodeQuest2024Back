@@ -59,6 +59,19 @@ export class GiveawayService {
     }
   }
 
+  async updateState(giveaway: Giveaway) {
+    try {
+      const giveawayFind = await this.findOne(giveaway.id_giveaway);
+      console.log(giveaway);
+      return this.giveawayRepo.save(giveaway);
+    } catch (error) {
+      console.error(error);
+      throw new InternalServerErrorException(
+        `Problemas actualizando el estado del sorteo: ${error}`,
+      );
+    }
+  }
+
   async findAll() {
     try {
       return await this.giveawayRepo.find({
