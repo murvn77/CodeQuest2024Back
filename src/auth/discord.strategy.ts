@@ -1,10 +1,11 @@
 import { PassportStrategy } from '@nestjs/passport';
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 
 import { Strategy } from 'passport-oauth2';
 import { stringify } from 'querystring';
 import { AuthService } from './services/auth.service';
 import { HttpService } from '@nestjs/axios';
+import { Administrator } from 'src/user/entities/administrator.entity';
 
 // change these to be your Discord client ID and secret
 const clientID = '1218718388809891841'; //953826763094499328
@@ -23,11 +24,11 @@ export class DiscordStrategy extends PassportStrategy(Strategy, 'discord') {
           client_id: clientID,
           redirect_uri: callbackURL,
           response_type: 'code',
-          scope: 'identify',
+          scope: 'identify+guilds+guilds.members.read',
         },
       )}`,
       tokenURL: 'https://discordapp.com/api/oauth2/token',
-      scope: 'identify',
+      scope: 'identify+guilds+guilds.members.read',
       clientID,
       clientSecret,
       callbackURL,
@@ -35,13 +36,50 @@ export class DiscordStrategy extends PassportStrategy(Strategy, 'discord') {
   }
 
   async validate(accessToken: string): Promise<any> {
+    const dataAdminDB = new Administrator();
+    const adminId = '1130900724499365958'; //1130903938099593427
     console.log(accessToken);
     const { data } = await this.http
-      .get('https://discordapp.com/api/users/@me', {
+      .get(`https://discord.com/api/users/@me/guilds/${adminId}/member`, {
         headers: { Authorization: `Bearer ${accessToken}` },
       })
       .toPromise();
     console.log(data);
-    return this.authService.findUserFromDiscordId(data.id);
+    if (data.roles.find((element) => element == adminId)) {
+      console.log('Is admin');
+      // const { data } = await this.http
+      //   .get('https://discordapp.com/api/users/@me', {
+      //     headers: { Authorization: `Bearer ${accessToken}` },
+      //   })
+      //   .toPromise();
+      // console.log(data);
+      const adminDB = await this.authService.findUserFromDiscordId(
+        data.user.id,
+      );
+      if (!adminDB) {
+        console.log(`Isn't in DB`);
+
+        dataAdminDB.discord_id = data.user.id;
+        dataAdminDB.name = data.user.username;
+        dataAdminDB.email = data.user.email;
+        dataAdminDB.avatar = data.user.avatar;
+        console.log(dataAdminDB);
+
+        await this.authService.createAdministratorInDB(dataAdminDB);
+      } else {
+        console.log('Is in DB');
+
+        dataAdminDB.discord_id = adminDB.user.id;
+        dataAdminDB.name = adminDB.user.username;
+        dataAdminDB.email = adminDB.user.email;
+        dataAdminDB.avatar = adminDB.user.avatar;
+        console.log(dataAdminDB);
+      }
+    } else {
+      console.log(`Isn't Admin`);
+      throw new UnauthorizedException();
+    }
+
+    return dataAdminDB;
   }
 }

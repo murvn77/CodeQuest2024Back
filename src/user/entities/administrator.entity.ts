@@ -15,6 +15,9 @@ export class Administrator {
   @Column({ type: 'varchar', length: 50 })
   discord_id: string;
 
+  @Column({ type: 'varchar', length: 100 })
+  avatar: string;
+
   @OneToMany(() => Giveaway, (giveaway) => giveaway.administrator)
   giveaway: Giveaway;
 }

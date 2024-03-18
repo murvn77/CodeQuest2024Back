@@ -1,4 +1,5 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { CreateAdministratorDto } from 'src/user/dtos/administrator.dto';
 import { AdministratorService } from 'src/user/services/administrator.service';
 
 @Injectable()
@@ -13,6 +14,10 @@ export class AuthService {
     }
 
     return user;
+  }
+  async createAdministratorInDB(admin: CreateAdministratorDto) {
+    const adminDb = await this.adminService.createAdministrator(admin);
+    return adminDb;
   }
   // async findUserFromDiscordUsername(username: string): Promise<any> {
   //   console.log('username', username);
