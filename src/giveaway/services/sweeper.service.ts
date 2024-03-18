@@ -13,7 +13,7 @@ export class SweeperService {
   constructor(
     @InjectRepository(Sweeper)
     private sweeperRepo: Repository<Sweeper>,
-  ) {}
+  ) { }
 
   async createSweeper(data: CreateSweeperDto) {
     console.log(data);
@@ -30,11 +30,8 @@ export class SweeperService {
 
         return this.sweeperRepo.save(newSweeper);
       } else {
-        throw new NotFoundException(
-          `Sweeper con el ID Discord #${data.id_discord} ya se encuentra registrado`,
-        );
+        return sweeper;
       }
-      return sweeper;
     } catch (error) {
       console.error(error);
       throw new InternalServerErrorException(
