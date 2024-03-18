@@ -1,11 +1,13 @@
 import { PassportStrategy } from '@nestjs/passport';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 
 import { Strategy } from 'passport-oauth2';
 import { stringify } from 'querystring';
 import { AuthService } from './services/auth.service';
 import { HttpService } from '@nestjs/axios';
 import { Administrator } from 'src/user/entities/administrator.entity';
+import config from 'src/config/config';
+import { ConfigType } from '@nestjs/config';
 
 // change these to be your Discord client ID and secret
 const clientID = '1218718388809891841';
@@ -15,7 +17,9 @@ const callbackURL = 'https://codequest2024front.onrender.com/principal';
 
 @Injectable()
 export class DiscordStrategy extends PassportStrategy(Strategy, 'discord') {
+  // private discordConfig: {};
   constructor(
+    @Inject(config.KEY) private configService: ConfigType<typeof config>,
     private authService: AuthService,
     private http: HttpService,
   ) {
@@ -34,6 +38,7 @@ export class DiscordStrategy extends PassportStrategy(Strategy, 'discord') {
       clientSecret,
       callbackURL,
     });
+    // this.discordConfig;
   }
 
   async validate(accessToken: string): Promise<any> {
@@ -89,7 +94,7 @@ export class DiscordStrategy extends PassportStrategy(Strategy, 'discord') {
         }
       } else {
         console.log(`Isn't Admin`);
-        return data;
+        return data.user;
         // throw new UnauthorizedException();
       }
       return dataAdminDB;
