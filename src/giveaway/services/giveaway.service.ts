@@ -45,20 +45,6 @@ export class GiveawayService {
     }
   }
 
-  async uploadPhotoGiveaway(id: string, filename: string) {
-    try {
-      const giveaway = await this.giveawayRepo.findOne({
-        where: { id_giveaway: id },
-      });
-      giveaway.image = `${this.configService.host_url}${filename}`;
-      return this.giveawayRepo.save(giveaway);
-    } catch (error) {
-      throw new InternalServerErrorException(
-        `Problemas agregando la imagen al sorteo: ${error}`,
-      );
-    }
-  }
-
   async findAll() {
     try {
       return await this.giveawayRepo.find({

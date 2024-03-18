@@ -29,8 +29,8 @@ export class Giveaway {
   @Column({ type: 'boolean' })
   state: boolean;
 
-  @Column({ type: 'varchar', length: 100, nullable: true })
-  image: string;
+  @Column({ type: 'bytea', nullable: true })
+  image: Buffer;
 
   @Column({ type: 'numeric' })
   number_winners: number;
