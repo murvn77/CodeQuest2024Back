@@ -7,12 +7,14 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Sweeper } from '../entities/sweeper.entity';
 import { Repository } from 'typeorm';
 import { CreateSweeperDto, UpdateSweeperDto } from '../dtos/sweeper.dto';
+import { GiveawayService } from './giveaway.service';
 
 @Injectable()
 export class SweeperService {
   constructor(
     @InjectRepository(Sweeper)
     private sweeperRepo: Repository<Sweeper>,
+    private giveawayService: GiveawayService,
   ) {}
 
   async createSweeper(data: CreateSweeperDto) {
