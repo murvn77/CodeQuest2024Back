@@ -31,14 +31,14 @@ export class GiveawayService {
           `Datos sorteo previo crear: ${data.name}, ${data.description}`,
         );
 
-        const imageData = Buffer.from(data.imagen, 'base64');
-        const imageBase64 = imageData.toString('base64');
+        // const imageData = Buffer.from(data.imagen, 'base64');
+        // const imageBase64 = imageData.toString('base64');
 
         const newGiveaway = this.giveawayRepo.create(data);
 
         const admin = await this.adminitratorService.findOne(data.fk_id_administrator);
         newGiveaway.administrator = admin
-        newGiveaway.image = imageBase64;
+        // newGiveaway.image = imageBase64;
 
         return this.giveawayRepo.save(newGiveaway);
       } else {
