@@ -13,8 +13,8 @@ export class GiveawaySweeper {
   @PrimaryGeneratedColumn('uuid')
   id_giveawaySweeper: string;
 
-  @ManyToOne(() => Giveaway, (giveaway) => giveaway.giveawaySweeper)
-  @JoinColumn({ name: 'fk_id_giveaway' })
+  @ManyToOne(() => Giveaway, (giveaway) => giveaway.giveawaySweeper, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'fk_id_giveaway' } )
   giveaway: Giveaway;
 
   @ManyToOne(() => Sweeper, (sweeper) => sweeper.giveawaySweeper)

@@ -36,6 +36,13 @@ export class GiveawaySweeperService {
         winners.push(selectedSweeper);
       }
 
+      for (const winner of winners) {
+        const giveawaySweeper = await this.findOne(giveaway, winner);
+        giveawaySweeper.winner = true;
+      }
+
+      giveaway.state = false;
+
       return winners;
     } catch (error) {
       throw new InternalServerErrorException(
