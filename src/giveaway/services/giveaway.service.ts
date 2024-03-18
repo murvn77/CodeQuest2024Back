@@ -11,6 +11,7 @@ import { CreateGiveawayDto, UpdateGiveawayDto } from '../dtos/giveaway.dto';
 import { AdministratorService } from 'src/user/services/administrator.service';
 import config from 'src/config/config';
 import { ConfigType } from '@nestjs/config';
+import { Administrator } from 'src/user/entities/administrator.entity';
 
 @Injectable()
 export class GiveawayService {
@@ -34,10 +35,15 @@ export class GiveawayService {
         const newGiveaway = this.giveawayRepo.create(data);
 
         const admin = await this.adminitratorService.findOne(data.fk_id_administrator);
-        newGiveaway.administrator = admin
-        // newGiveaway.image = imageBase64;
 
-        return this.giveawayRepo.save(newGiveaway);
+        if (admin instanceof Administrator) {
+          newGiveaway.administrator = admin
+          return this.giveawayRepo.save(newGiveaway);
+        } else {
+          throw new InternalServerErrorException(
+            `El administrador con id #${data.fk_id_administrator} no existe en la BD.`,
+          );
+        }        
       } else {
         throw new NotFoundException(
           `Sorteo con el nombre ${data.name} ya se encuentra registrado`,
