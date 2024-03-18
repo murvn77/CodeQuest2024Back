@@ -48,6 +48,9 @@ export class DiscordStrategy extends PassportStrategy(Strategy, 'discord') {
     //Christian: 1216945509244207154
     //Loto: 1216917146433487020
     const serverId = '1216945509244207154';
+    //DevTalles:
+    //Christian:1219041365959249932
+    //Loto:1219131063532781568
     const roleAdminId = '1219041365959249932';
     console.log('AccessToken', accessToken);
     const { data } = await this.http
@@ -58,33 +61,31 @@ export class DiscordStrategy extends PassportStrategy(Strategy, 'discord') {
     console.log(data);
     if (data.roles.find((element) => element == roleAdminId)) {
       console.log('Is admin');
-      // const { data } = await this.http
-      //   .get('https://discordapp.com/api/users/@me', {
-      //     headers: { Authorization: `Bearer ${accessToken}` },
-      //   })
-      //   .toPromise();
-      // console.log(data);
+
       const adminDB = await this.authService.findUserFromDiscordId(
         data.user.id,
       );
-      console.log(adminDB);
-      if (adminDB) {
+      console.log('AdminDB', adminDB);
+      if (adminDB == null) {
         console.log(`Isn't in DB`);
-
-        dataAdminDB.discord_id = data.user.id;
-        dataAdminDB.name = data.user.username;
-        dataAdminDB.email = data.user.email;
-        dataAdminDB.avatar = data.user.avatar;
+        const { data } = await this.http
+          .get('https://discordapp.com/api/users/@me', {
+            headers: { Authorization: `Bearer ${accessToken}` },
+          })
+          .toPromise();
+        console.log('dataUserDiscord', data);
+        dataAdminDB.discord_id = data.id;
+        dataAdminDB.name = data.username;
+        dataAdminDB.avatar = data.avatar;
         console.log(dataAdminDB);
 
         await this.authService.createAdministratorInDB(dataAdminDB);
       } else {
         console.log('Is in DB');
 
-        dataAdminDB.discord_id = adminDB.user.id;
-        dataAdminDB.name = adminDB.user.username;
-        dataAdminDB.email = adminDB.user.email;
-        dataAdminDB.avatar = adminDB.user.avatar;
+        dataAdminDB.discord_id = adminDB.id;
+        dataAdminDB.name = adminDB.name;
+        dataAdminDB.avatar = adminDB.avatar;
         console.log(dataAdminDB);
       }
     } else {

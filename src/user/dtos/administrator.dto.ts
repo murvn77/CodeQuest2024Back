@@ -1,5 +1,5 @@
 import { ApiProperty, PartialType } from '@nestjs/swagger';
-import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateAdministratorDto {
   @IsNotEmpty({ message: 'El nombre es obligatorio' })
@@ -7,10 +7,10 @@ export class CreateAdministratorDto {
   @ApiProperty()
   readonly name: string;
 
-  @IsNotEmpty({ message: 'El correo es obligatorio' })
-  @IsEmail()
-  @ApiProperty()
-  readonly email: string;
+  // @IsNotEmpty({ message: 'El correo es obligatorio' })
+  // @IsEmail()
+  // @ApiProperty()
+  // readonly email: string;
 
   @IsNotEmpty({ message: 'El discordId es obligatorio' })
   // @IsNumber({ maxDecimalPlaces: 0 })
