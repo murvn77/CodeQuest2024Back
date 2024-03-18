@@ -1,5 +1,5 @@
 import { PassportStrategy } from '@nestjs/passport';
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 
 import { Strategy } from 'passport-oauth2';
 import { stringify } from 'querystring';
@@ -83,14 +83,15 @@ export class DiscordStrategy extends PassportStrategy(Strategy, 'discord') {
       } else {
         console.log('Is in DB');
 
-        dataAdminDB.discord_id = adminDB.id;
+        dataAdminDB.discord_id = adminDB.discord_id;
         dataAdminDB.name = adminDB.name;
         dataAdminDB.avatar = adminDB.avatar;
         console.log(dataAdminDB);
       }
     } else {
       console.log(`Isn't Admin`);
-      throw new UnauthorizedException();
+      return data;
+      // throw new UnauthorizedException();
     }
 
     return dataAdminDB;
