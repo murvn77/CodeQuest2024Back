@@ -69,13 +69,16 @@ export class DiscordStrategy extends PassportStrategy(Strategy, 'discord') {
         dataAdminDB.avatar = data.avatar;
         console.log(dataAdminDB);
 
-        await this.authService.createAdministratorInDB(dataAdminDB);
+        const respondeAdmin =
+          await this.authService.createAdministratorInDB(dataAdminDB);
+        dataAdminDB.id_administrator = respondeAdmin.id_administrator;
       } else {
         console.log('Is in DB');
 
         dataAdminDB.discord_id = adminDB.discord_id;
         dataAdminDB.name = adminDB.name;
         dataAdminDB.avatar = adminDB.avatar;
+        dataAdminDB.id_administrator = adminDB.id_administrator;
         console.log(dataAdminDB);
       }
     } else {
