@@ -26,7 +26,7 @@ export class AdministratorService {
   async createAdministrator(data: CreateAdministratorDto) {
     console.log(data);
     try {
-      const admin = await this.findOneByDocumento(data.document);
+      const admin = await this.findOneByDiscordId(data.discord_id);
       console.log(admin);
       if (admin.code === 400) {
         console.log(
@@ -36,7 +36,7 @@ export class AdministratorService {
         return this.administratorRepo.save(newAdmin);
       } else {
         throw new NotFoundException(
-          `Administrador con el documento #${data.document} ya se encuentra registrado`,
+          `Administrador con el discordId #${data.discord_id} ya se encuentra registrado`,
         );
       }
       return admin;
@@ -91,16 +91,16 @@ export class AdministratorService {
     }
   }
 
-  async findOneByDocumento(document: number) {
+  async findOneByDiscordId(discordId: string) {
     try {
-      console.log('Documento: ', document);
+      console.log('discordId: ', discordId);
       const admin = await this.administratorRepo.findOne({
-        where: { document: document },
+        where: { discord_id: discordId },
       });
       console.log('administrador: ', admin);
       if (!(admin instanceof Administrator)) {
         // throw new NotFoundException(
-        //   `Usuario con el documento #${id} no se encuentra en la Base de Datos`,
+        //   `Usuario con el discordIdo #${id} no se encuentra en la Base de Datos`,
         // );
         return { code: 400, message: 'Administrador no registrado' };
       }

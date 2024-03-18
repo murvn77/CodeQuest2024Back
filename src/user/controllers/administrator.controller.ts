@@ -34,10 +34,10 @@ export class AdministratorController {
   findOneByMail(@Param('correo') correo: string) {
     return this.administratorService.findOneByMail(correo);
   }
-  @Get('documento/:documento')
-  findOneByDocumento(@Param('documento') documento: number) {
-    console.log(documento);
-    return this.administratorService.findOneByDocumento(documento);
+  @Get('discordId/:discordId')
+  findOneByDiscordId(@Param('discordId') discordId: string) {
+    console.log(discordId);
+    return this.administratorService.findOneByDiscordId(discordId);
   }
 
   @Post()
@@ -51,7 +51,7 @@ export class AdministratorController {
   @Put(':id')
   update(@Param('id') id: string, @Body() payload: UpdateAdministratorDto) {
     console.log('id: ' + id);
-    console.log('datos: ' + payload.document);
+    console.log('datos: ' + payload.discord_id);
     return this.administratorService.update(id, payload);
   }
 

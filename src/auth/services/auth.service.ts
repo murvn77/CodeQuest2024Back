@@ -5,23 +5,23 @@ import { AdministratorService } from 'src/user/services/administrator.service';
 export class AuthService {
   constructor(private readonly adminService: AdministratorService) {}
 
-  //   async findUserFromDiscordId(discordId: string): Promise<any> {
-  //     const user = await this.adminService.findOne('discord_id', discordId);
+  async findUserFromDiscordId(discordId: string): Promise<any> {
+    const user = await this.adminService.findOneByDiscordId(discordId);
 
-  //     if (!user) {
-  //       throw new UnauthorizedException();
-  //     }
+    if (!user) {
+      throw new UnauthorizedException();
+    }
 
-  //     return user;
+    return user;
+  }
+  // async findUserFromDiscordUsername(username: string): Promise<any> {
+  //   console.log('username', username);
+  //   const user = await this.adminService.findOne('username', username);
+
+  //   if (!user) {
+  //     throw new UnauthorizedException();
   //   }
-  //   async findUserFromDiscordUsername(username: string): Promise<any> {
-  //     console.log('username', username);
-  //     const user = await this.adminService.findOne('username', username);
 
-  //     if (!user) {
-  //       throw new UnauthorizedException();
-  //     }
-
-  //     return user;
-  //   }
+  //   return user;
+  // }
 }
