@@ -43,7 +43,7 @@ export class AdministratorController {
   @Put(':id')
   update(@Param('id') id: string, @Body() payload: UpdateAdministratorDto) {
     console.log('id: ' + id);
-    console.log('datos: ' + payload.discord_id);
+    console.log('datos: ' + payload.id);
     return this.administratorService.update(id, payload);
   }
 

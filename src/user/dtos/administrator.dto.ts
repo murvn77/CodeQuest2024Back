@@ -5,7 +5,7 @@ export class CreateAdministratorDto {
   @IsNotEmpty({ message: 'El nombre es obligatorio' })
   @IsString()
   @ApiProperty()
-  readonly name: string;
+  readonly username: string;
 
   // @IsNotEmpty({ message: 'El correo es obligatorio' })
   // @IsEmail()
@@ -17,7 +17,7 @@ export class CreateAdministratorDto {
   // @IsPositive()
   @IsString()
   @ApiProperty()
-  readonly discord_id: string;
+  readonly id: string;
 
   @IsString()
   @ApiProperty()

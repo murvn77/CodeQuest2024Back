@@ -7,13 +7,13 @@ export class Administrator {
   id_administrator: string;
 
   @Column({ type: 'varchar', length: 50 })
-  name: string;
+  username: string;
 
   // @Column({ type: 'varchar', length: 40 })
   // email: string;
 
   @Column({ type: 'varchar', length: 50 })
-  discord_id: string;
+  id: string;
 
   @Column({ type: 'varchar', length: 100 })
   avatar: string;

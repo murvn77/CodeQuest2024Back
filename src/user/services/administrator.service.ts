@@ -26,17 +26,17 @@ export class AdministratorService {
   async createAdministrator(data: CreateAdministratorDto) {
     console.log(data);
     try {
-      const admin = await this.findOneByDiscordId(data.discord_id);
+      const admin = await this.findOneByDiscordId(data.id);
       console.log(admin);
       if (admin == null) {
         console.log(
-          `Datos administrador previo crear: ${data.name}, ${data.discord_id}`,
+          `Datos administrador previo crear: ${data.username}, ${data.id}`,
         );
         const newAdmin = await this.administratorRepo.create(data);
         return await this.administratorRepo.save(newAdmin);
       } else {
         throw new NotFoundException(
-          `Administrador con el discordId #${data.discord_id} ya se encuentra registrado`,
+          `Administrador con el discordId #${data.id} ya se encuentra registrado`,
         );
       }
       return admin;
@@ -99,7 +99,7 @@ export class AdministratorService {
     try {
       console.log('discordId: ', discordId);
       const admin = await this.administratorRepo.findOne({
-        where: { discord_id: discordId },
+        where: { id: discordId },
       });
       console.log('administradorFind: ', admin);
       if (!(admin instanceof Administrator)) {
