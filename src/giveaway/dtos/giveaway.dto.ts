@@ -32,7 +32,7 @@ export class CreateGiveawayDto {
 
   @IsOptional()
   @ApiProperty({ type: 'string' })
-  readonly imagen: any;
+  readonly imagen: string;
 
   @IsNotEmpty({ message: 'La cantidad de ganadores es obligatoria' })
   @IsNumber()

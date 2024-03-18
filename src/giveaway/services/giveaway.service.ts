@@ -34,6 +34,9 @@ export class GiveawayService {
 
         const newGiveaway = this.giveawayRepo.create(data);
 
+        console.log('NewGiveaway: ', newGiveaway);
+        console.log('Image: ', newGiveaway.image)
+
         const admin = await this.adminitratorService.findOne(data.fk_id_administrator);
 
         if (admin instanceof Administrator) {
