@@ -44,8 +44,10 @@ export class DiscordStrategy extends PassportStrategy(Strategy, 'discord') {
     try {
       console.log(this.discordConfig);
       const dataAdminDB = new Administrator();
-      const serverId = '1216945509244207154';
-      const roleAdminId = '1219041365959249932';
+      //Id del servidor de DevTalles
+      const serverId = '1130900724499365958';
+      //Id del rol Admi de DevTalles
+      const roleAdminId = '1130903938099593427';
       console.log('AccessToken', accessToken);
       const { data } = await this.http
         .get(`https://discord.com/api/users/@me/guilds/${serverId}/member`, {
