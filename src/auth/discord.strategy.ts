@@ -7,8 +7,8 @@ import { AuthService } from './services/auth.service';
 import { HttpService } from '@nestjs/axios';
 
 // change these to be your Discord client ID and secret
-const clientID = '1216925942572650566'; //953826763094499328
-const clientSecret = '6uPb_GC3eyI__UOsM9pulxQU4ezh-OUF'; //axC7kdZN4kx3toAz491C2LVipGd_n17S
+const clientID = '1218718388809891841'; //953826763094499328
+const clientSecret = 'NmMU9hIzlnC18bs3qToZDFAlxg6H1BF8'; //axC7kdZN4kx3toAz491C2LVipGd_n17S
 const callbackURL = 'http://localhost:5173/principal'; //'https://codequest2024front.onrender.com/principal';
 
 @Injectable()
