@@ -43,7 +43,7 @@ export class GiveawaySweeperController {
     return this.giveawaySweeperService.createGiveawaySweeper(payload);
   }
 
-  @Get('/giveaway/:giveaway')
+  @Get('/sweepersNotIn/giveaway/:giveaway')
   findSweepersNotInGiveaway(@Param('giveaway') giveaway: Giveaway) {
     console.log('payload giveaway-sweeper: ', giveaway);
     return this.giveawaySweeperService.findSweepersNotInGiveaway(giveaway);
