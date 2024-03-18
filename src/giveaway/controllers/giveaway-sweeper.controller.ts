@@ -40,8 +40,13 @@ export class GiveawaySweeperController {
 
   @Post()
   createGiveawaySweeper(@Body() payload: CreateGiveawaySweeperDto) {
-    console.log('payload giveaway-sweeper: ', payload);
     return this.giveawaySweeperService.createGiveawaySweeper(payload);
+  }
+
+  @Get('/giveaway/:giveaway')
+  findSweepersNotInGiveaway(@Param('giveaway') giveaway: Giveaway) {
+    console.log('payload giveaway-sweeper: ', giveaway);
+    return this.giveawaySweeperService.findSweepersNotInGiveaway(giveaway);
   }
 
   @Put(':id')
