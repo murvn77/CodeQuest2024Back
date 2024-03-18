@@ -13,13 +13,15 @@ import {
   CreateGiveawaySweeperDto,
   UpdateGiveawaySweeperDto,
 } from '../dtos/giveaway-sweeper.dto';
+import { Giveaway } from '../entities/giveaway.entity';
+import { Sweeper } from '../entities/sweeper.entity';
 
 @ApiTags('Giveaway-Sweeper')
 @Controller('giveaway-sweeper')
 export class GiveawaySweeperController {
   constructor(private giveawaySweeperService: GiveawaySweeperService) {}
 
-  @Get('/generateWinners/:id_giveaway')
+  @Get('/generateWinners/giveaway/:id_giveaway')
   generateWinner(@Param('id_giveaway') id_giveaway: string) {
     console.log('Entro al get de generar ganador');
     return this.giveawaySweeperService.generateWinner(id_giveaway);
@@ -31,10 +33,10 @@ export class GiveawaySweeperController {
     return this.giveawaySweeperService.findAll();
   }
 
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //     return this.giveawaySweeperService.findOne(id);
-  // }
+  @Get('/giveaway/:giveaway/sweeper/:sweeper')
+  findOne(@Param('giveaway') giveaway: Giveaway, @Param('sweeper') sweeper: Sweeper) {
+      return this.giveawaySweeperService.findOne(giveaway, sweeper);
+  }
 
   @Post()
   // @ApiConsumes('multipart/form-data')
