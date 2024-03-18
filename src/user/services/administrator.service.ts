@@ -21,7 +21,7 @@ export class AdministratorService {
   constructor(
     @InjectRepository(Administrator)
     private administratorRepo: Repository<Administrator>,
-  ) {}
+  ) { }
 
   async createAdministrator(data: CreateAdministratorDto) {
     console.log(data);
@@ -50,7 +50,9 @@ export class AdministratorService {
 
   async findAll() {
     try {
-      return await this.administratorRepo.find();
+      return await this.administratorRepo.find({
+        relations: ['giveaway']
+      });
     } catch (error) {
       console.error(error);
       throw new InternalServerErrorException(
@@ -63,6 +65,7 @@ export class AdministratorService {
     try {
       const admin = await this.administratorRepo.findOne({
         where: { id_administrator: id },
+        relations: ['giveaway']
       });
       if (!(admin instanceof Administrator)) {
         throw new NotFoundException(
@@ -79,6 +82,7 @@ export class AdministratorService {
     try {
       const admin = await this.administratorRepo.findOne({
         where: { email: email },
+        relations: ['giveaway']
       });
       if (!(admin instanceof Administrator)) {
         throw new NotFoundException(
@@ -115,6 +119,7 @@ export class AdministratorService {
       const admin = await this.administratorRepo.findOne({
         where: { id_administrator: id },
       });
+
       this.administratorRepo.merge(admin, cambios);
       return this.administratorRepo.save(admin);
     } catch (error) {

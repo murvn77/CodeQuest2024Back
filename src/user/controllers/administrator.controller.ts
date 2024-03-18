@@ -40,8 +40,6 @@ export class AdministratorController {
     return this.administratorService.findOneByDiscordId(discordId);
   }
 
- 
-
   @Put(':id')
   update(@Param('id') id: string, @Body() payload: UpdateAdministratorDto) {
     console.log('id: ' + id);

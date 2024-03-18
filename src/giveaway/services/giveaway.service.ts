@@ -37,7 +37,6 @@ export class GiveawayService {
           `Sorteo con el nombre ${data.name} ya se encuentra registrado`,
         );
       }
-      return giveaway;
     } catch (error) {
       console.error(error);
       throw new InternalServerErrorException(
@@ -62,7 +61,9 @@ export class GiveawayService {
 
   async findAll() {
     try {
-      return await this.giveawayRepo.find();
+      return await this.giveawayRepo.find({
+        relations: ['giveawaySweeper', 'administrator']
+      });
     } catch (error) {
       console.error(error);
       throw new InternalServerErrorException(
@@ -75,6 +76,7 @@ export class GiveawayService {
     try {
       const giveaway = await this.giveawayRepo.findOne({
         where: { id_giveaway: id },
+        relations: ['giveawaySweeper', 'administrator']
       });
       if (!(giveaway instanceof Giveaway)) {
         throw new NotFoundException(
@@ -92,12 +94,10 @@ export class GiveawayService {
       console.log('Name: ', name);
       const giveaway = await this.giveawayRepo.findOne({
         where: { name: name },
+        relations: ['giveawaySweeper', 'administrator']
       });
       console.log('Giveaway: ', giveaway);
       if (!(giveaway instanceof Giveaway)) {
-        // throw new NotFoundException(
-        //   `Usuario con el documento #${id} no se encuentra en la Base de Datos`,
-        // );
         return { code: 400, message: 'Sorteo no registrado' };
       }
       return giveaway;
