@@ -62,7 +62,7 @@ export class GiveawayService {
   async findAll() {
     try {
       return await this.giveawayRepo.find({
-        relations: ['giveawaySweeper', 'administrator']
+        relations: ['giveawaySweeper', 'giveawaySweeper.sweeper', 'administrator']
       });
     } catch (error) {
       console.error(error);
@@ -76,7 +76,7 @@ export class GiveawayService {
     try {
       const giveaway = await this.giveawayRepo.findOne({
         where: { id_giveaway: id },
-        relations: ['giveawaySweeper', 'administrator']
+        relations: ['giveawaySweeper', 'giveawaySweeper.sweeper', 'administrator']
       });
       if (!(giveaway instanceof Giveaway)) {
         throw new NotFoundException(
@@ -94,7 +94,7 @@ export class GiveawayService {
       console.log('Name: ', name);
       const giveaway = await this.giveawayRepo.findOne({
         where: { name: name },
-        relations: ['giveawaySweeper', 'administrator']
+        relations: ['giveawaySweeper', 'giveawaySweeper.sweeper', 'administrator']
       });
       console.log('Giveaway: ', giveaway);
       if (!(giveaway instanceof Giveaway)) {

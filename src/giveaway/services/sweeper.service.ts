@@ -43,7 +43,7 @@ export class SweeperService {
   async findAll() {
     try {
       return await this.sweeperRepo.find({
-        relations: ['giveawaySweeper']
+        relations: ['giveawaySweeper', 'giveawaySweeper.giveaway']
       });
     } catch (error) {
       console.error(error);
@@ -57,7 +57,7 @@ export class SweeperService {
     try {
       const sweeper = await this.sweeperRepo.findOne({
         where: { id_sweeper: id },
-        relations: ['giveawaySweeper']
+        relations: ['giveawaySweeper', 'giveawaySweeper.giveaway']
       });
       if (!(sweeper instanceof Sweeper)) {
         throw new NotFoundException(
@@ -74,7 +74,7 @@ export class SweeperService {
     try {
       const sweeper = await this.sweeperRepo.findOne({
         where: { username: username },
-        relations: ['giveawaySweeper']
+        relations: ['giveawaySweeper', 'giveawaySweeper.giveaway']
       });
       if (!(sweeper instanceof Sweeper)) {
         throw new NotFoundException(
@@ -92,7 +92,7 @@ export class SweeperService {
       console.log('ID Discord: ', id_discord);
       const sweeper = await this.sweeperRepo.findOne({
         where: { id_discord: id_discord },
-        relations: ['giveawaySweeper']
+        relations: ['giveawaySweeper', 'giveawaySweeper.giveaway']
       });
       console.log('Sweeper: ', sweeper);
       if (!(sweeper instanceof Sweeper)) {

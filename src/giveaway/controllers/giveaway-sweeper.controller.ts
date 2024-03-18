@@ -39,8 +39,6 @@ export class GiveawaySweeperController {
   }
 
   @Post()
-  // @ApiConsumes('multipart/form-data')
-  // @UsePipes(new ValidationPipe({ transform: true }))
   createGiveawaySweeper(@Body() payload: CreateGiveawaySweeperDto) {
     console.log('payload giveaway-sweeper: ', payload);
     return this.giveawaySweeperService.createGiveawaySweeper(payload);
