@@ -22,17 +22,23 @@ export class DiscordStrategy extends PassportStrategy(Strategy, 'discord') {
     super({
       authorizationURL: `https://discordapp.com/api/oauth2/authorize?${stringify(
         {
-          client_id: configService.discord.clientId,
-          redirect_uri: configService.discord.callbackUrl,
+          client_id: configService.discord.clientId || '1216925942572650566',
+          redirect_uri:
+            configService.discord.callbackUrl ||
+            'https://codequest2024front.onrender.com/principal',
           response_type: 'code',
           scope: 'identify+guilds+guilds.members.read',
         },
       )}`,
       tokenURL: 'https://discordapp.com/api/oauth2/token',
       scope: 'identify+guilds+guilds.members.read',
-      clientID: configService.discord.clientId,
-      clientSecret: configService.discord.clientSecret,
-      callbackURL: configService.discord.callbackUrl,
+      clientID: configService.discord.clientId || '1216925942572650566',
+      clientSecret:
+        configService.discord.clientSecret ||
+        '5dFxgp_o2OzQJrnM2XLQgUzSVPDWk20e',
+      callbackURL:
+        configService.discord.callbackUrl ||
+        'https://codequest2024front.onrender.com/principal',
     });
     this.discordConfig = configService.discord;
   }
