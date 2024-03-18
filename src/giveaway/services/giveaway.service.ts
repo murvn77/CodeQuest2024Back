@@ -32,18 +32,20 @@ export class GiveawayService {
           `Datos sorteo previo crear: ${data.name}, ${data.description}`,
         );
 
-        const newGiveaway = this.giveawayRepo.create(data);
-
         const admin = await this.adminitratorService.findOne(data.fk_id_administrator);
 
         if (admin instanceof Administrator) {
+          const newGiveaway = this.giveawayRepo.create(data);
+
           newGiveaway.administrator = admin
+          newGiveaway.image = data.imagen;
+
           return this.giveawayRepo.save(newGiveaway);
         } else {
           throw new InternalServerErrorException(
             `El administrador con id #${data.fk_id_administrator} no existe en la BD.`,
           );
-        }        
+        }
       } else {
         throw new NotFoundException(
           `Sorteo con el nombre ${data.name} ya se encuentra registrado`,
@@ -128,10 +130,6 @@ export class GiveawayService {
   }
 
   async remove(id: string) {
-    const giveaway = await this.giveawayRepo.findOne({
-      where: { id_giveaway: id },
-    });
-
-    return this.giveawayRepo.delete(giveaway);
+    return this.giveawayRepo.delete(id);
   }
 }
