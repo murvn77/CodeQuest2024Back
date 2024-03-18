@@ -68,6 +68,7 @@ $ npm run test:cov
 
 ## Authors
 
+Team [judgeeks](https://discord.com/channels/1130900724499365958/1215272381757788200)
 - Mauren Rivera 
 - Christian Galindo 
 - David Diaz 
