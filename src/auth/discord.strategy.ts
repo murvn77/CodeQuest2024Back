@@ -10,9 +10,9 @@ import { Administrator } from 'src/user/entities/administrator.entity';
 // import { ConfigType } from '@nestjs/config';
 
 // change these to be your Discord client ID and secret
-const clientID = '953826763094499328';
-const clientSecret = 'axC7kdZN4kx3toAz491C2LVipGd_n17S';
-const callbackURL = 'http://localhost:8080/auth/discord';
+const clientID = '1216925942572650566';
+const clientSecret = '5dFxgp_o2OzQJrnM2XLQgUzSVPDWk20e';
+const callbackURL = 'https://codequest2024front.onrender.com/principal';
 
 @Injectable()
 export class DiscordStrategy extends PassportStrategy(Strategy, 'discord') {
@@ -44,8 +44,8 @@ export class DiscordStrategy extends PassportStrategy(Strategy, 'discord') {
     try {
       console.log(this.discordConfig);
       const dataAdminDB = new Administrator();
-      const serverId = '1216917146433487020';
-      const roleAdminId = '1219131063532781568';
+      const serverId = '1216945509244207154';
+      const roleAdminId = '1219041365959249932';
       console.log('AccessToken', accessToken);
       const { data } = await this.http
         .get(`https://discord.com/api/users/@me/guilds/${serverId}/member`, {
