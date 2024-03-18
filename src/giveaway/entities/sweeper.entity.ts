@@ -10,10 +10,10 @@ export class Sweeper {
   id_discord: string;
 
   @Column({ type: 'varchar', length: 50 })
-  name: string;
+  username: string;
 
   @Column({ type: 'varchar', length: 40 })
-  email: string;
+  avatar: string;
 
   @OneToMany(
     () => GiveawaySweeper,

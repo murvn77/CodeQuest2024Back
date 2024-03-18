@@ -13,15 +13,15 @@ export class CreateSweeperDto {
   @ApiProperty()
   readonly id_discord: string;
 
-  @IsNotEmpty({ message: 'El nombre es obligatorio' })
+  @IsNotEmpty({ message: 'El username es obligatorio' })
   @IsString()
   @ApiProperty()
-  readonly name: string;
+  readonly username: string;
 
-  @IsNotEmpty({ message: 'El correo es obligatorio' })
-  @IsEmail()
+  @IsNotEmpty({ message: 'El avatar es obligatorio' })
+  @IsString()
   @ApiProperty()
-  readonly email: string;
+  readonly avatar: string;
 }
 
 export class UpdateSweeperDto extends PartialType(CreateSweeperDto) {}

@@ -22,9 +22,12 @@ export class SweeperService {
       console.log(sweeper);
       if (sweeper.code === 400) {
         console.log(
-          `Datos sweeper previo crear: ${data.name}, ${data.email}`,
+          `Datos sweeper previo crear: ${data.username}, ${data.avatar}`,
         );
+
         const newSweeper = this.sweeperRepo.create(data);
+        newSweeper.avatar = data.avatar;
+
         return this.sweeperRepo.save(newSweeper);
       } else {
         throw new NotFoundException(
@@ -70,15 +73,15 @@ export class SweeperService {
     }
   }
 
-  async findOneByMail(email: string) {
+  async findOneByUsername(username: string) {
     try {
       const sweeper = await this.sweeperRepo.findOne({
-        where: { email: email },
+        where: { username: username },
         relations: ['giveawaySweeper']
       });
       if (!(sweeper instanceof Sweeper)) {
         throw new NotFoundException(
-          `Sweeper con el correo ${email} no se encuentra en la Base de Datos`,
+          `Sweeper con el username ${username} no se encuentra en la Base de Datos`,
         );
       }
       return sweeper;
@@ -120,10 +123,6 @@ export class SweeperService {
   }
 
   async remove(id: string) {
-    const sweeper = await this.sweeperRepo.findOne({
-      where: { id_sweeper: id },
-    });
-
-    return this.sweeperRepo.delete(sweeper);
+    return this.sweeperRepo.delete(id);
   }
 }
