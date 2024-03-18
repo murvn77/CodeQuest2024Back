@@ -34,10 +34,10 @@ export class AdministratorController {
   findOneByMail(@Param('correo') correo: string) {
     return this.administratorService.findOneByMail(correo);
   }
-  @Get('idDiscord/:discord_id')
-  findOneByDiscordID(@Param('discord_id') discord_id: string) {
-    console.log(discord_id);
-    return this.administratorService.findOneByDiscordID(discord_id);
+  @Get('discordId/:discordId')
+  findOneByDiscordId(@Param('discordId') discordId: string) {
+    console.log(discordId);
+    return this.administratorService.findOneByDiscordId(discordId);
   }
 
   @Put(':id')
