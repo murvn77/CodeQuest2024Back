@@ -37,15 +37,16 @@ export class DiscordStrategy extends PassportStrategy(Strategy, 'discord') {
 
   async validate(accessToken: string): Promise<any> {
     const dataAdminDB = new Administrator();
-    const adminId = '1216945509244207154'; //1130903938099593427
+    const serverId = '1216945509244207154'; //1130903938099593427
+    const roleAdminId='1219041365959249932';
     console.log(accessToken);
     const { data } = await this.http
-      .get(`https://discord.com/api/users/@me/guilds/${adminId}/member`, {
+      .get(`https://discord.com/api/users/@me/guilds/${serverId}/member`, {
         headers: { Authorization: `Bearer ${accessToken}` },
       })
       .toPromise();
     console.log(data);
-    if (data.roles.find((element) => element == adminId)) {
+    if (data.roles.find((element) => element == roleAdminId)) {
       console.log('Is admin');
       // const { data } = await this.http
       //   .get('https://discordapp.com/api/users/@me', {
