@@ -9,8 +9,8 @@ export class Administrator {
   @Column({ type: 'varchar', length: 50 })
   name: string;
 
-  @Column({ type: 'varchar', length: 40 })
-  email: string;
+  // @Column({ type: 'varchar', length: 40 })
+  // email: string;
 
   @Column({ type: 'varchar', length: 50 })
   discord_id: string;

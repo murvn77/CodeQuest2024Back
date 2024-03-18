@@ -28,12 +28,12 @@ export class AdministratorService {
     try {
       const admin = await this.findOneByDiscordId(data.discord_id);
       console.log(admin);
-      if (admin.code === 400) {
+      if (admin == null) {
         console.log(
-          `Datos administrador previo crear: ${data.name}, ${data.email}`,
+          `Datos administrador previo crear: ${data.name}, ${data.discord_id}`,
         );
-        const newAdmin = this.administratorRepo.create(data);
-        return this.administratorRepo.save(newAdmin);
+        const newAdmin = await this.administratorRepo.create(data);
+        return await this.administratorRepo.save(newAdmin);
       } else {
         throw new NotFoundException(
           `Administrador con el discordId #${data.discord_id} ya se encuentra registrado`,
@@ -78,22 +78,22 @@ export class AdministratorService {
     }
   }
 
-  async findOneByMail(email: string) {
-    try {
-      const admin = await this.administratorRepo.findOne({
-        where: { email: email },
-        relations: ['giveaway'],
-      });
-      if (!(admin instanceof Administrator)) {
-        throw new NotFoundException(
-          `Administrador con el correo ${email} no se encuentra en la Base de Datos`,
-        );
-      }
-      return admin;
-    } catch (error) {
-      return error;
-    }
-  }
+  // async findOneByMail(email: string) {
+  //   try {
+  //     const admin = await this.administratorRepo.findOne({
+  //       where: { email: email },
+  //       relations: ['giveaway'],
+  //     });
+  //     if (!(admin instanceof Administrator)) {
+  //       throw new NotFoundException(
+  //         `Administrador con el correo ${email} no se encuentra en la Base de Datos`,
+  //       );
+  //     }
+  //     return admin;
+  //   } catch (error) {
+  //     return error;
+  //   }
+  // }
 
   async findOneByDiscordId(discordId: string) {
     try {
@@ -101,12 +101,14 @@ export class AdministratorService {
       const admin = await this.administratorRepo.findOne({
         where: { discord_id: discordId },
       });
-      console.log('administrador: ', admin);
+      console.log('administradorFind: ', admin);
       if (!(admin instanceof Administrator)) {
+        console.log('administrator not registered in DB');
         // throw new NotFoundException(
         //   `Usuario con el discordIdo #${id} no se encuentra en la Base de Datos`,
         // );
-        return { code: 400, message: 'Administrador no registrado' };
+        // return { code: 400, message: 'Administrador no registrado' };
+        return null;
       }
       return admin;
     } catch (error) {
