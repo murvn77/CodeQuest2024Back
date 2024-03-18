@@ -7,14 +7,12 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Sweeper } from '../entities/sweeper.entity';
 import { Repository } from 'typeorm';
 import { CreateSweeperDto, UpdateSweeperDto } from '../dtos/sweeper.dto';
-import { GiveawayService } from './giveaway.service';
 
 @Injectable()
 export class SweeperService {
   constructor(
     @InjectRepository(Sweeper)
     private sweeperRepo: Repository<Sweeper>,
-    private giveawayService: GiveawayService,
   ) {}
 
   async createSweeper(data: CreateSweeperDto) {
@@ -24,31 +22,33 @@ export class SweeperService {
       console.log(sweeper);
       if (sweeper.code === 400) {
         console.log(
-          `Datos ---sweeper--- previo crear: ${data.name}, ${data.email}`,
+          `Datos sweeper previo crear: ${data.name}, ${data.email}`,
         );
         const newSweeper = this.sweeperRepo.create(data);
         return this.sweeperRepo.save(newSweeper);
       } else {
         throw new NotFoundException(
-          `---Sweeper--- con el ID Discord #${data.id_discord} ya se encuentra registrado`,
+          `Sweeper con el ID Discord #${data.id_discord} ya se encuentra registrado`,
         );
       }
       return sweeper;
     } catch (error) {
       console.error(error);
       throw new InternalServerErrorException(
-        `Problemas creando el ---sweeper---: ${error}`,
+        `Problemas creando el sweeper: ${error}`,
       );
     }
   }
 
   async findAll() {
     try {
-      return await this.sweeperRepo.find();
+      return await this.sweeperRepo.find({
+        relations: ['giveawaySweeper']
+      });
     } catch (error) {
       console.error(error);
       throw new InternalServerErrorException(
-        `Problemas encontrando los ---Sweeper---: ${error}`,
+        `Problemas encontrando los sweepers: ${error}`,
       );
     }
   }
@@ -57,10 +57,11 @@ export class SweeperService {
     try {
       const sweeper = await this.sweeperRepo.findOne({
         where: { id_sweeper: id },
+        relations: ['giveawaySweeper']
       });
       if (!(sweeper instanceof Sweeper)) {
         throw new NotFoundException(
-          `---Sweeper--- con id #${id} no se encuentra en la Base de Datos`,
+          `Sweeper con id #${id} no se encuentra en la Base de Datos`,
         );
       }
       return sweeper;
@@ -73,10 +74,11 @@ export class SweeperService {
     try {
       const sweeper = await this.sweeperRepo.findOne({
         where: { email: email },
+        relations: ['giveawaySweeper']
       });
       if (!(sweeper instanceof Sweeper)) {
         throw new NotFoundException(
-          `---Sweeper--- con el correo ${email} no se encuentra en la Base de Datos`,
+          `Sweeper con el correo ${email} no se encuentra en la Base de Datos`,
         );
       }
       return sweeper;
@@ -90,13 +92,11 @@ export class SweeperService {
       console.log('ID Discord: ', id_discord);
       const sweeper = await this.sweeperRepo.findOne({
         where: { id_discord: id_discord },
+        relations: ['giveawaySweeper']
       });
       console.log('Sweeper: ', sweeper);
       if (!(sweeper instanceof Sweeper)) {
-        // throw new NotFoundException(
-        //   `Usuario con el documento #${id} no se encuentra en la Base de Datos`,
-        // );
-        return { code: 400, message: '---Sweeper--- no registrado' };
+        return { code: 400, message: 'Sweeper no registrado' };
       }
       return sweeper;
     } catch (error) {
@@ -114,7 +114,7 @@ export class SweeperService {
     } catch (error) {
       console.error(error);
       throw new InternalServerErrorException(
-        `Problemas actualizando el ---sweeper---: ${error}`,
+        `Problemas actualizando el sweeper: ${error}`,
       );
     }
   }

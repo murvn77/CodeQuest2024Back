@@ -12,6 +12,8 @@ import {
 } from '../dtos/giveaway-sweeper.dto';
 import { GiveawayService } from './giveaway.service';
 import { SweeperService } from './sweeper.service';
+import { Giveaway } from '../entities/giveaway.entity';
+import { Sweeper } from '../entities/sweeper.entity';
 
 @Injectable()
 export class GiveawaySweeperService {
@@ -23,24 +25,23 @@ export class GiveawaySweeperService {
   ) { }
 
   async generateWinner(id_giveaway: string) {
-    const sweepers = await this.findSweepersByGiveaway(id_giveaway);
-    const winners = [];
-    let winnersComplete = false
+    try {
+      const giveaway = await this.giveawayService.findOne(id_giveaway);
+      const sweepers = await this.findSweepersByGiveaway(giveaway);
 
-    if (sweepers != 0) {
-      while (!winnersComplete) {
-        for (const sweeper of sweepers) {
-          const probability = Math.random();
-          if (probability < 0.5 && winners.length < 3) {
-            winners.push(sweeper);
-          } else {
-            winnersComplete = true
-          }
-        }
+      const winners = [];
+      while (winners.length < giveaway.number_winners && sweepers.length > 0) {
+        const randomIndex = Math.floor(Math.random() * sweepers.length);
+        const selectedSweeper = sweepers.splice(randomIndex, 1)[0];
+        winners.push(selectedSweeper);
       }
-    }
 
-    return winners;
+      return winners;
+    } catch (error) {
+      throw new InternalServerErrorException(
+        `Problemas generando el o los ganadores del sorteo: ${error}`,
+      );
+    }
   }
 
   async createGiveawaySweeper(data: CreateGiveawaySweeperDto) {
@@ -48,9 +49,7 @@ export class GiveawaySweeperService {
       const giveaway = await this.giveawayService.findOne(data.fk_id_giveaway);
       const sweeper = await this.sweeperService.findOne(data.fk_id_sweeper);
 
-      const giveawaySweeper = await this.giveawaySweeperRepo.findOne({
-        where: { giveaway: giveaway, sweeper: sweeper }
-      });
+      const giveawaySweeper = await this.findOne(giveaway, sweeper);
 
       if (!(giveawaySweeper instanceof GiveawaySweeper)) {
         const newGiveawaySweeper = this.giveawaySweeperRepo.create(data);
@@ -83,14 +82,15 @@ export class GiveawaySweeperService {
     }
   }
 
-  async findOne(fk_giveaway: string, fk_sweeper: string, winner: boolean) {
+  async findOne(giveaway: Giveaway, sweeper: Sweeper) {
     try {
       const giveawaySweeper = await this.giveawaySweeperRepo.findOne({
-        // where: { giveaway.id: fk_giveaway,  },
+        where: { giveaway: giveaway, sweeper: sweeper },
+        relations: ['giveaway', 'sweeper']
       });
       if (!(giveawaySweeper instanceof GiveawaySweeper)) {
         throw new NotFoundException(
-          `Sortes con participantes con id ___ no se encuentra en la Base de Datos`,
+          `Sortes con participantes no se encuentra en la Base de Datos`,
         );
       }
       return giveawaySweeper;
@@ -99,26 +99,26 @@ export class GiveawaySweeperService {
     }
   }
 
-  async findSweepersByGiveaway(id_giveaway: string) {
+  async findSweepersByGiveaway(giveaway: Giveaway) {
     try {
-      const giveaway = await this.giveawayService.findOne(id_giveaway);
-
       const giveawaySweepers = await this.giveawaySweeperRepo.find({
         where: { giveaway: giveaway },
         relations: ['giveaway', 'sweeper']
-      })
+      });
 
-      const sweepersInGiveaway = [];
+      const sweepersInGiveaway = giveawaySweepers.map(gs => gs.sweeper);
 
-      for (const gs of giveawaySweepers) {
-        sweepersInGiveaway.push(gs.sweeper)
+      if (sweepersInGiveaway.length === 0) {
+        throw new NotFoundException(`Actualmente el sorteo con id ${giveaway.id_giveaway} no tiene participantes`);
       }
-    
-      console.log(sweepersInGiveaway);
 
       return sweepersInGiveaway;
     } catch (error) {
-      return error;
+      if (error instanceof NotFoundException) {
+        throw error;
+      } else {
+        throw new Error("Ocurrió un error al buscar los participantes del sorteo");
+      }
     }
   }
 

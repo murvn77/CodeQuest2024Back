@@ -18,13 +18,10 @@ export class CreateAdministratorDto {
   @ApiProperty()
   readonly email: string;
 
-  @IsNotEmpty({ message: 'El documento es obligatorio' })
-  @IsNumber()
-  @IsPositive()
-  // @MinLength(6)
-  // @MaxLength(6)
+  @IsNotEmpty({ message: 'El ID de Discord es obligatorio' })
+  @IsString()
   @ApiProperty()
-  readonly document: number;
+  readonly discord_id: string;
 }
 
 export class UpdateAdministratorDto extends PartialType(
