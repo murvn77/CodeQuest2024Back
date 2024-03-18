@@ -8,9 +8,16 @@ import { HttpService } from '@nestjs/axios';
 import { Administrator } from 'src/user/entities/administrator.entity';
 
 // change these to be your Discord client ID and secret
-const clientID = '1218718388809891841'; //953826763094499328
-const clientSecret = 'NmMU9hIzlnC18bs3qToZDFAlxg6H1BF8'; //axC7kdZN4kx3toAz491C2LVipGd_n17S
-const callbackURL = 'http://localhost:5173/principal'; //'https://codequest2024front.onrender.com/principal';
+const clientID = '1218718388809891841';
+//clientIDTest:953826763094499328
+//ClientIDProd:1218718388809891841
+const clientSecret = 'NmMU9hIzlnC18bs3qToZDFAlxg6H1BF8';
+//ClienteSecretTest: axC7kdZN4kx3toAz491C2LVipGd_n17S
+//ClientSecretProd: NmMU9hIzlnC18bs3qToZDFAlxg6H1BF8
+const callbackURL = 'http://localhost:5173/principal';
+//callbackProd:'https://codequest2024front.onrender.com/principal';
+//CallbackTestLoto: http://localhost:8080/auth/discord
+//callbackTestChristian: http://localhost:5173/principal
 
 @Injectable()
 export class DiscordStrategy extends PassportStrategy(Strategy, 'discord') {
@@ -37,9 +44,12 @@ export class DiscordStrategy extends PassportStrategy(Strategy, 'discord') {
 
   async validate(accessToken: string): Promise<any> {
     const dataAdminDB = new Administrator();
-    const serverId = '1216945509244207154'; //1130903938099593427
-    const roleAdminId='1219041365959249932';
-    console.log(accessToken);
+    //DevTalles: 1130903938099593427
+    //Christian: 1216945509244207154
+    //Loto: 1216917146433487020
+    const serverId = '1216945509244207154';
+    const roleAdminId = '1219041365959249932';
+    console.log('AccessToken', accessToken);
     const { data } = await this.http
       .get(`https://discord.com/api/users/@me/guilds/${serverId}/member`, {
         headers: { Authorization: `Bearer ${accessToken}` },
@@ -57,7 +67,8 @@ export class DiscordStrategy extends PassportStrategy(Strategy, 'discord') {
       const adminDB = await this.authService.findUserFromDiscordId(
         data.user.id,
       );
-      if (!adminDB) {
+      console.log(adminDB);
+      if (adminDB) {
         console.log(`Isn't in DB`);
 
         dataAdminDB.discord_id = data.user.id;

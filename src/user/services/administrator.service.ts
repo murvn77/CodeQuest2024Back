@@ -103,10 +103,12 @@ export class AdministratorService {
       });
       console.log('administrador: ', admin);
       if (!(admin instanceof Administrator)) {
+        console.log('administrator not registered in DB');
         // throw new NotFoundException(
         //   `Usuario con el discordIdo #${id} no se encuentra en la Base de Datos`,
         // );
-        return { code: 400, message: 'Administrador no registrado' };
+        // return { code: 400, message: 'Administrador no registrado' };
+        return null;
       }
       return admin;
     } catch (error) {
