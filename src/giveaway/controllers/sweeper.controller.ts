@@ -7,7 +7,7 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { ApiConsumes, ApiTags } from '@nestjs/swagger';
+import { ApiTags } from '@nestjs/swagger';
 import { CreateSweeperDto, UpdateSweeperDto } from '../dtos/sweeper.dto';
 import { SweeperService } from '../services/sweeper.service';
 
@@ -27,10 +27,11 @@ export class SweeperController {
     return this.sweeperService.findOne(id);
   }
 
-  @Get('correo/:correo')
-  findOneByMail(@Param('correo') correo: string) {
-    return this.sweeperService.findOneByMail(correo);
+  @Get('username/:username')
+  findOneByUsername(@Param('username') username: string) {
+    return this.sweeperService.findOneByUsername(username);
   }
+
   @Get('idDiscord/:id_discord')
   findOneByIdDiscord(@Param('id_discord') id_discord: string) {
     console.log(id_discord);
@@ -38,8 +39,6 @@ export class SweeperController {
   }
 
   @Post()
-  @ApiConsumes('multipart/form-data')
-  // @UsePipes(new ValidationPipe({ transform: true }))
   createSweeper(@Body() payload: CreateSweeperDto) {
     console.log('payload sweeper: ', payload);
     return this.sweeperService.createSweeper(payload);
