@@ -19,6 +19,12 @@ import {
 export class GiveawaySweeperController {
   constructor(private giveawaySweeperService: GiveawaySweeperService) {}
 
+  @Get('/generateWinners/:id_giveaway')
+  generateWinner(@Param('id_giveaway') id_giveaway: string) {
+    console.log('Entro al get de generar ganador');
+    return this.giveawaySweeperService.generateWinner(id_giveaway);
+  }
+
   @Get()
   findAll() {
     console.log('Entro al get de giveaway-sweeper');
@@ -31,7 +37,7 @@ export class GiveawaySweeperController {
   // }
 
   @Post()
-  @ApiConsumes('multipart/form-data')
+  // @ApiConsumes('multipart/form-data')
   // @UsePipes(new ValidationPipe({ transform: true }))
   createGiveawaySweeper(@Body() payload: CreateGiveawaySweeperDto) {
     console.log('payload giveaway-sweeper: ', payload);

@@ -21,8 +21,6 @@ export class CreateAdministratorDto {
   @IsNotEmpty({ message: 'El discordId es obligatorio' })
   // @IsNumber({ maxDecimalPlaces: 0 })
   // @IsPositive()
-  // @MinLength(6)
-  // @MaxLength(6)
   @IsString()
   @ApiProperty()
   readonly discord_id: string;

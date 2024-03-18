@@ -40,13 +40,7 @@ export class AdministratorController {
     return this.administratorService.findOneByDiscordId(discordId);
   }
 
-  @Post()
-  @ApiConsumes('multipart/form-data')
-  // @UsePipes(new ValidationPipe({ transform: true }))
-  createAdministrator(@Body() payload: CreateAdministratorDto) {
-    console.log('payload admnistrador: ', payload);
-    return this.administratorService.createAdministrator(payload);
-  }
+ 
 
   @Put(':id')
   update(@Param('id') id: string, @Body() payload: UpdateAdministratorDto) {
@@ -58,5 +52,13 @@ export class AdministratorController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.administratorService.remove(id);
+  }
+
+  @Post()
+  @ApiConsumes('multipart/form-data')
+  // @UsePipes(new ValidationPipe({ transform: true }))
+  createAdministrator(@Body() payload: CreateAdministratorDto) {
+    console.log('payload admnistrador: ', payload);
+    return this.administratorService.createAdministrator(payload);
   }
 }
