@@ -26,10 +26,10 @@ export class GiveawaySweeperService {
 
   async generateWinner(id_giveaway: string) {
     try {
-      const giveaway = await this.giveawayService.findOne(id_giveaway);
+      const giveaway : Giveaway = await this.giveawayService.findOne(id_giveaway);
       const sweepers = await this.findSweepersByGiveaway(giveaway);
 
-      const winners = [];
+      const winners : Sweeper [] = [];
       while (winners.length < giveaway.number_winners && sweepers.length > 0) {
         const randomIndex = Math.floor(Math.random() * sweepers.length);
         const selectedSweeper = sweepers.splice(randomIndex, 1)[0];
