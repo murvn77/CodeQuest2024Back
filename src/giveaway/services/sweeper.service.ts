@@ -38,7 +38,7 @@ export class SweeperService {
     } catch (error) {
       console.error(error);
       throw new InternalServerErrorException(
-        `Problemas creando el sweeper: ${error}`,
+        `Problemas creando el sweeper: ${error} `,
       );
     }
   }
