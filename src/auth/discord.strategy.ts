@@ -10,6 +10,9 @@ import config from 'src/config/config';
 import { ConfigType } from '@nestjs/config';
 
 // change these to be your Discord client ID and secret
+const clientID = '1216925942572650566';
+const clientSecret = '5dFxgp_o2OzQJrnM2XLQgUzSVPDWk20e';
+const callbackURL = 'https://codequest2024front.onrender.com/principal';
 
 @Injectable()
 export class DiscordStrategy extends PassportStrategy(Strategy, 'discord') {
@@ -22,23 +25,17 @@ export class DiscordStrategy extends PassportStrategy(Strategy, 'discord') {
     super({
       authorizationURL: `https://discordapp.com/api/oauth2/authorize?${stringify(
         {
-          client_id: configService.discord.clientId || '1216925942572650566',
-          redirect_uri:
-            configService.discord.callbackUrl ||
-            'https://codequest2024front.onrender.com/principal',
+          client_id: clientID,
+          redirect_uri: callbackURL,
           response_type: 'code',
           scope: 'identify+guilds+guilds.members.read',
         },
       )}`,
       tokenURL: 'https://discordapp.com/api/oauth2/token',
       scope: 'identify+guilds+guilds.members.read',
-      clientID: configService.discord.clientId || '1216925942572650566',
-      clientSecret:
-        configService.discord.clientSecret ||
-        '5dFxgp_o2OzQJrnM2XLQgUzSVPDWk20e',
-      callbackURL:
-        configService.discord.callbackUrl ||
-        'https://codequest2024front.onrender.com/principal',
+      clientID,
+      clientSecret,
+      callbackURL,
     });
     this.discordConfig = configService.discord;
   }
