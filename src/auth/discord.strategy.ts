@@ -1,24 +1,24 @@
 import { PassportStrategy } from '@nestjs/passport';
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 
 import { Strategy } from 'passport-oauth2';
 import { stringify } from 'querystring';
 import { AuthService } from './services/auth.service';
 import { HttpService } from '@nestjs/axios';
 import { Administrator } from 'src/user/entities/administrator.entity';
-import config from 'src/config/config';
-import { ConfigType } from '@nestjs/config';
+// import config from 'src/config/config';
+// import { ConfigType } from '@nestjs/config';
 
 // change these to be your Discord client ID and secret
-const clientID = '1216925942572650566';
-const clientSecret = '5dFxgp_o2OzQJrnM2XLQgUzSVPDWk20e';
-const callbackURL = 'https://codequest2024front.onrender.com/principal';
+const clientID = '953826763094499328';
+const clientSecret = 'axC7kdZN4kx3toAz491C2LVipGd_n17S';
+const callbackURL = 'http://localhost:8080/auth/discord';
 
 @Injectable()
 export class DiscordStrategy extends PassportStrategy(Strategy, 'discord') {
   private discordConfig;
   constructor(
-    @Inject(config.KEY) private configService: ConfigType<typeof config>,
+    // @Inject(config.KEY) private configService: ConfigType<typeof config>,
     private authService: AuthService,
     private http: HttpService,
   ) {
@@ -37,14 +37,15 @@ export class DiscordStrategy extends PassportStrategy(Strategy, 'discord') {
       clientSecret,
       callbackURL,
     });
-    this.discordConfig = configService.discord;
+    // this.discordConfig = configService.discord;
   }
 
   async validate(accessToken: string): Promise<any> {
     try {
+      console.log(this.discordConfig);
       const dataAdminDB = new Administrator();
-      const serverId = this.discordConfig.serverId;
-      const roleAdminId = this.discordConfig.roleAdminId;
+      const serverId = '1216917146433487020';
+      const roleAdminId = '1219131063532781568';
       console.log('AccessToken', accessToken);
       const { data } = await this.http
         .get(`https://discord.com/api/users/@me/guilds/${serverId}/member`, {
