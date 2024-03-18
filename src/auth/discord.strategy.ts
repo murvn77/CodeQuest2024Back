@@ -37,7 +37,7 @@ export class DiscordStrategy extends PassportStrategy(Strategy, 'discord') {
 
   async validate(accessToken: string): Promise<any> {
     const dataAdminDB = new Administrator();
-    const adminId = '1130900724499365958'; //1130903938099593427
+    const adminId = '1216945509244207154'; //1130903938099593427
     console.log(accessToken);
     const { data } = await this.http
       .get(`https://discord.com/api/users/@me/guilds/${adminId}/member`, {
