@@ -14,10 +14,10 @@ export class Giveaway {
   @PrimaryGeneratedColumn('uuid')
   id_giveaway: string;
 
-  @Column({ type: 'varchar', length: 50 })
+  @Column({ type: 'varchar', length: 100 })
   name: string;
 
-  @Column({ type: 'varchar', length: 40 })
+  @Column({ type: 'varchar', length: 250 })
   description: string;
 
   @Column({ type: 'date' })

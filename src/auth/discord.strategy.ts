@@ -12,7 +12,7 @@ import { Administrator } from 'src/user/entities/administrator.entity';
 // change these to be your Discord client ID and secret
 const clientID = '1216925942572650566';
 const clientSecret = '5dFxgp_o2OzQJrnM2XLQgUzSVPDWk20e';
-const callbackURL = 'http://localhost:5173/principal';
+const callbackURL = 'https://codequest2024front.onrender.com/principal';
 
 @Injectable()
 export class DiscordStrategy extends PassportStrategy(Strategy, 'discord') {
