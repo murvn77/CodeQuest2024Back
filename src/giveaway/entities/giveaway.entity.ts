@@ -29,7 +29,7 @@ export class Giveaway {
   @Column({ type: 'boolean' })
   state: boolean;
 
-  @Column({ type: 'bytea', nullable: true })
+  @Column({ type: 'text', nullable: true })
   image: string;
 
   @Column({ type: 'numeric' })
