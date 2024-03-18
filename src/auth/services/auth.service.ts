@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CreateAdministratorDto } from 'src/user/dtos/administrator.dto';
 import { AdministratorService } from 'src/user/services/administrator.service';
 
@@ -10,7 +10,8 @@ export class AuthService {
     const user = await this.adminService.findOneByDiscordId(discordId);
 
     if (!user) {
-      throw new UnauthorizedException();
+      // throw new UnauthorizedException();
+      return null;
     }
 
     return user;
