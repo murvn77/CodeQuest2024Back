@@ -99,25 +99,48 @@ export class GiveawaySweeperService {
     }
   }
 
+  async findSweepersByGiveaway(giveaway: Giveaway) {
+    try {
+      const giveawaySweepers = await this.giveawaySweeperRepo.find({
+        where: { giveaway: giveaway },
+        relations: ['giveaway', 'sweeper']
+      });
+
+      const sweepersInGiveaway = giveawaySweepers.map(gs => gs.sweeper);
+
+      if (sweepersInGiveaway.length === 0) {
+        throw new NotFoundException(`Actualmente el sorteo con id ${giveaway.id_giveaway} no tiene participantes`);
+      }
+
+      return sweepersInGiveaway;
+    } catch (error) {
+      if (error instanceof NotFoundException) {
+        throw error;
+      } else {
+        throw new Error("Ocurrió un error al buscar los participantes del sorteo");
+      }
+    }
+  }
+
   async findSweepersNotInGiveaway(giveaway: Giveaway) {
     try {
       const giveawaySweepers = await this.giveawaySweeperRepo.find({
         where: { giveaway: giveaway },
         relations: ['giveaway', 'sweeper']
       });
-  
+
       const allSweepers = await this.sweeperService.findAll()
-  
+
       const sweepersNotInGiveaway = allSweepers.filter(sweeper => {
         return !giveawaySweepers.some(gs => gs.sweeper.id_sweeper === sweeper.id_sweeper);
       });
-  
+
       return sweepersNotInGiveaway;
     } catch (error) {
       throw new Error("Ocurrió un error al buscar los participantes del sorteo");
     }
   }
-  
+
 
   async update(id: string, cambios: UpdateGiveawaySweeperDto) {
     try {
