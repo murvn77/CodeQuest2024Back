@@ -9,14 +9,8 @@ import { Administrator } from 'src/user/entities/administrator.entity';
 
 // change these to be your Discord client ID and secret
 const clientID = '1218718388809891841';
-//clientIDTest:953826763094499328
-//ClientIDProd:1218718388809891841
 const clientSecret = 'NmMU9hIzlnC18bs3qToZDFAlxg6H1BF8';
-//ClienteSecretTest: axC7kdZN4kx3toAz491C2LVipGd_n17S
-//ClientSecretProd: NmMU9hIzlnC18bs3qToZDFAlxg6H1BF8
-const callbackURL = 'http://localhost:5173/principal';
-//callbackProd:'https://codequest2024front.onrender.com/principal';
-//CallbackTestLoto: http://localhost:8080/auth/discord
+const callbackURL = 'https://codequest2024front.onrender.com/principal';
 //callbackTestChristian: http://localhost:5173/principal
 
 @Injectable()
@@ -44,13 +38,9 @@ export class DiscordStrategy extends PassportStrategy(Strategy, 'discord') {
 
   async validate(accessToken: string): Promise<any> {
     const dataAdminDB = new Administrator();
-    //DevTalles: 1130903938099593427
     //Christian: 1216945509244207154
-    //Loto: 1216917146433487020
     const serverId = '1216945509244207154';
-    //DevTalles:
     //Christian:1219041365959249932
-    //Loto:1219131063532781568
     const roleAdminId = '1219041365959249932';
     console.log('AccessToken', accessToken);
     const { data } = await this.http
